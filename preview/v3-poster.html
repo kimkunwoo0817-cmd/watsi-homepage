@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WATSI — A Creative Studio Film</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#020203;
+    --ink:#efece6;
+    --ink-dim:rgba(239,236,230,.55);
+    --ink-faint:rgba(239,236,230,.25);
+    --line:rgba(239,236,230,.12);
+    --gold:#c9a96a;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--ink);
+    font-family:"Pretendard Variable",Pretendard,-apple-system,"Malgun Gothic",sans-serif;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.6;
+  }
+  ::selection{background:rgba(201,169,106,.3)}
+  .serif{font-family:"Noto Serif KR","Pretendard Variable",serif}
+
+  /* 레터박스 (영화 위아래 검은 띠) */
+  .bar-top,.bar-bottom{
+    position:fixed;left:0;right:0;height:34px;background:#000;z-index:90;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 clamp(16px,4vw,44px);
+    font-size:10px;letter-spacing:.35em;color:var(--ink-faint);text-transform:uppercase;
+  }
+  .bar-top{top:0;border-bottom:1px solid rgba(255,255,255,.06)}
+  .bar-bottom{bottom:0;border-top:1px solid rgba(255,255,255,.06)}
+  .bar-top a,.bar-bottom a{color:var(--ink-dim);text-decoration:none;letter-spacing:.35em}
+  .bar-top a:hover{color:var(--gold)}
+
+  .frame{padding:34px 0}
+
+  /* 포스터 한 장 = 한 화면 */
+  .poster{
+    min-height:calc(100svh - 68px);
+    display:flex;flex-direction:column;justify-content:center;align-items:center;
+    text-align:center;padding:60px 24px;position:relative;overflow:hidden;
+    border-bottom:1px solid var(--line);
+  }
+  .vin{position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(ellipse 75% 65% at 50% 45%,transparent 50%,rgba(0,0,0,.75))}
+
+  .act{
+    font-size:clamp(11px,1.4vw,13px);letter-spacing:.6em;color:var(--gold);
+    text-transform:uppercase;margin-bottom:30px;
+  }
+  .act::before,.act::after{content:"—";margin:0 16px;opacity:.5}
+
+  /* 첫 포스터 */
+  .p1 .studio{font-size:clamp(11px,1.5vw,14px);letter-spacing:.55em;color:var(--ink-dim);text-transform:uppercase;margin-bottom:40px}
+  .p1 h1{
+    font-size:clamp(80px,20vw,260px);font-weight:900;line-height:.9;letter-spacing:.06em;margin-left:.06em;
+    background:linear-gradient(180deg,#fff 20%,#8f8a80 70%,#4a463f);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .p1 .tag{margin-top:44px;font-size:clamp(16px,2.4vw,24px);color:var(--ink-dim);font-weight:400;letter-spacing:.2em}
+  .p1 .credit{
+    margin-top:56px;font-size:clamp(9px,1.2vw,11px);letter-spacing:.3em;color:var(--ink-faint);
+    text-transform:uppercase;line-height:2.2;
+  }
+  .p1 .credit b{color:var(--ink-dim);font-weight:600}
+
+  /* 챕터 포스터 */
+  .poster h2{
+    font-size:clamp(44px,8vw,110px);font-weight:900;line-height:1.1;letter-spacing:-.01em;max-width:1000px;
+  }
+  .poster h2 .thin{font-weight:400;color:var(--ink-dim)}
+  .poster .sub{
+    margin-top:34px;font-size:clamp(15px,2vw,19px);color:var(--ink-dim);max-width:560px;font-weight:300;
+  }
+  .poster .en-cap{
+    margin-top:44px;font-size:11px;letter-spacing:.5em;color:var(--ink-faint);text-transform:uppercase;
+  }
+
+  .g-vr{background:
+    radial-gradient(ellipse 60% 50% at 50% 60%,rgba(60,90,160,.16),transparent 65%),var(--bg)}
+  .g-app{background:
+    radial-gradient(ellipse 60% 50% at 50% 60%,rgba(120,80,50,.14),transparent 65%),var(--bg)}
+  .g-ai{background:
+    radial-gradient(ellipse 60% 50% at 50% 60%,rgba(110,60,150,.15),transparent 65%),var(--bg)}
+  .g-game{background:
+    radial-gradient(ellipse 60% 50% at 50% 60%,rgba(40,120,85,.14),transparent 65%),var(--bg)}
+
+  /* 포트폴리오: 상영 예정관 */
+  .lobby{padding:clamp(100px,15vh,180px) clamp(20px,6vw,80px);border-bottom:1px solid var(--line)}
+  .lobby-head{text-align:center;margin-bottom:70px}
+  .lobby-head .act{margin-bottom:22px}
+  .lobby-head h2{font-size:clamp(34px,5.5vw,64px);font-weight:900;letter-spacing:-.01em}
+  .tickets{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;max-width:1200px;margin:0 auto}
+  .ticket{
+    aspect-ratio:2/3;border:1px solid var(--line);border-radius:8px;position:relative;overflow:hidden;
+    display:flex;flex-direction:column;justify-content:flex-end;padding:28px;
+    transition:transform .5s cubic-bezier(.16,1,.3,1),border-color .5s;
+  }
+  .ticket:hover{transform:translateY(-10px);border-color:rgba(201,169,106,.5)}
+  .ticket::before{content:"";position:absolute;inset:0}
+  .ticket:nth-child(1)::before{background:linear-gradient(180deg,#0d1526 0%,#05070d 70%)}
+  .ticket:nth-child(2)::before{background:linear-gradient(180deg,#1c1026 0%,#0a050d 70%)}
+  .ticket:nth-child(3)::before{background:linear-gradient(180deg,#241a0d 0%,#0d0905 70%)}
+  .ticket:nth-child(4)::before{background:linear-gradient(180deg,#0d2416 0%,#050d08 70%)}
+  .ticket::after{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(ellipse 80% 50% at 50% 100%,rgba(0,0,0,.6),transparent);
+  }
+  .t-soon{
+    position:absolute;top:20px;left:50%;transform:translateX(-50%);z-index:1;
+    font-size:9px;letter-spacing:.4em;color:var(--gold);border:1px solid rgba(201,169,106,.4);
+    padding:7px 14px 7px 18px;border-radius:2px;text-transform:uppercase;white-space:nowrap;
+  }
+  .t-info{position:relative;z-index:1;text-align:center}
+  .t-cat{font-size:10px;letter-spacing:.35em;color:var(--ink-faint);text-transform:uppercase;margin-bottom:10px}
+  .t-name{font-size:clamp(20px,2.2vw,26px);font-weight:900;line-height:1.3}
+  .lobby-note{text-align:center;margin-top:50px;color:var(--ink-faint);font-size:12px;letter-spacing:.2em}
+
+  /* 엔딩 */
+  .ending{
+    min-height:calc(100svh - 68px);
+    display:flex;flex-direction:column;justify-content:center;align-items:center;
+    text-align:center;padding:60px 24px;position:relative;
+  }
+  .ending h2{font-size:clamp(50px,10vw,140px);font-weight:900;letter-spacing:.04em}
+  .ending .q{color:var(--gold)}
+  .ending .sub{margin-top:26px;color:var(--ink-dim);font-size:clamp(15px,2vw,19px);font-weight:300}
+  .mail{
+    display:inline-block;margin-top:52px;font-size:clamp(20px,3.2vw,32px);font-weight:600;
+    color:var(--ink);text-decoration:none;border-bottom:1px solid var(--gold);padding-bottom:10px;
+    letter-spacing:.04em;transition:color .3s;
+  }
+  .mail:hover{color:var(--gold)}
+  .end-credit{
+    margin-top:70px;font-size:10px;letter-spacing:.3em;color:var(--ink-faint);
+    text-transform:uppercase;line-height:2.4;
+  }
+
+  .reveal{opacity:0;transform:translateY(40px);transition:opacity 1.1s cubic-bezier(.16,1,.3,1),transform 1.1s cubic-bezier(.16,1,.3,1)}
+  .reveal.on{opacity:1;transform:translateY(0)}
+  .reveal.d1{transition-delay:.15s}.reveal.d2{transition-delay:.3s}.reveal.d3{transition-delay:.45s}
+
+  @media (max-width:640px){
+    .bar-top span.hide-m,.bar-bottom span.hide-m{display:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="bar-top">
+  <span>WATSI PICTURES</span>
+  <span class="hide-m"><a href="#vr">VR</a>&nbsp;&nbsp;&nbsp;<a href="#app">APP·WEB</a>&nbsp;&nbsp;&nbsp;<a href="#ai">AI</a>&nbsp;&nbsp;&nbsp;<a href="#game">GAME</a>&nbsp;&nbsp;&nbsp;<a href="#contact">CONTACT</a></span>
+</div>
+<div class="bar-bottom">
+  <span>SINCE 2019</span>
+  <span class="hide-m">NOW SHOWING</span>
+</div>
+
+<div class="frame">
+
+<!-- 타이틀 포스터 -->
+<section class="poster p1">
+  <div class="vin"></div>
+  <p class="studio reveal on">A Creative Studio Film</p>
+  <h1 class="reveal on">WATSI</h1>
+  <p class="tag serif reveal on">공간을 담고, 경험을 만듭니다</p>
+  <p class="credit reveal on">
+    <b>360° VR Film</b> · <b>App &amp; Web</b> · <b>AI Cinema</b> · <b>Game</b><br>
+    Directed by WATSI &nbsp;/&nbsp; Est. 2019
+  </p>
+</section>
+
+<!-- ACT I -->
+<section class="poster g-vr" id="vr">
+  <div class="vin"></div>
+  <p class="act reveal">Act I · 360° VR</p>
+  <h2 class="reveal d1"><span class="thin">당신이 서 있는 곳이</span><br>장면이 된다</h2>
+  <p class="sub reveal d2">현장을 그대로 옮겨 놓은 듯한 360도 영상.<br>공간·전시·관광·기록 콘텐츠를 몰입형으로 담아냅니다.</p>
+  <p class="en-cap reveal d3">Immersive 360° Film</p>
+</section>
+
+<!-- ACT II -->
+<section class="poster g-app" id="app">
+  <div class="vin"></div>
+  <p class="act reveal">Act II · App &amp; Web</p>
+  <h2 class="reveal d1"><span class="thin">아이디어는</span><br>작동해야 한다</h2>
+  <p class="sub reveal d2">기획부터 디자인, 개발까지 한 번에.<br>아이디어를 실제로 작동하는 서비스로 만듭니다.</p>
+  <p class="en-cap reveal d3">Product Development</p>
+</section>
+
+<!-- ACT III -->
+<section class="poster g-ai" id="ai">
+  <div class="vin"></div>
+  <p class="act reveal">Act III · AI Cinema</p>
+  <h2 class="reveal d1"><span class="thin">상상하면,</span><br>이미 영상이다</h2>
+  <p class="sub reveal d2">최신 AI 기술로 만드는 새로운 영상.<br>광고, 예고편, 스토리 콘텐츠를 빠르고 과감하게 제작합니다.</p>
+  <p class="en-cap reveal d3">AI Generated Film</p>
+</section>
+
+<!-- ACT IV -->
+<section class="poster g-game" id="game">
+  <div class="vin"></div>
+  <p class="act reveal">Act IV · Game</p>
+  <h2 class="reveal d1"><span class="thin">이야기 속을</span><br>직접 걷는다</h2>
+  <p class="sub reveal d2">퍼즐·어드벤처 게임을 기획부터 개발까지.<br>이야기와 공간을 플레이하는 경험으로 만듭니다.</p>
+  <p class="en-cap reveal d3">Game Development</p>
+</section>
+
+<!-- 상영 예정 -->
+<section class="lobby" id="work">
+  <div class="lobby-head">
+    <p class="act reveal">Coming Soon</p>
+    <h2 class="reveal d1">상영 예정작</h2>
+  </div>
+  <div class="tickets">
+    <div class="ticket reveal d1">
+      <span class="t-soon">Coming Soon</span>
+      <div class="t-info"><p class="t-cat">360° VR</p><p class="t-name serif">몰입형<br>공간 영상</p></div>
+    </div>
+    <div class="ticket reveal d2">
+      <span class="t-soon">Coming Soon</span>
+      <div class="t-info"><p class="t-cat">AI Cinema</p><p class="t-name serif">AI 시네마틱<br>필름</p></div>
+    </div>
+    <div class="ticket reveal d3">
+      <span class="t-soon">Coming Soon</span>
+      <div class="t-info"><p class="t-cat">App &amp; Web</p><p class="t-name serif">서비스<br>프로젝트</p></div>
+    </div>
+    <div class="ticket reveal d3">
+      <span class="t-soon">Coming Soon</span>
+      <div class="t-info"><p class="t-cat">Game</p><p class="t-name serif">게임<br>프로젝트</p></div>
+    </div>
+  </div>
+  <p class="lobby-note reveal">※ 작업 영상은 순차적으로 공개될 예정입니다</p>
+</section>
+
+<!-- 엔딩 -->
+<section class="ending" id="contact">
+  <div class="vin"></div>
+  <h2 class="reveal">THE END<span class="q serif">?</span></h2>
+  <p class="sub reveal d1">아니요, 다음 장면은 당신과 함께 만들 차례입니다.</p>
+  <a class="mail reveal d2" href="mailto:watsi@naver.com">watsi@naver.com</a>
+  <p class="end-credit reveal d3">
+    WATSI · Creative Tech Studio<br>
+    360° VR Film — App &amp; Web — AI Cinema — Game<br>
+    © 2026 WATSI. Since 2019.
+  </p>
+</section>
+
+</div>
+
+<script>
+  const io = new IntersectionObserver(es => {
+    es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } });
+  }, { threshold: .2 });
+  document.querySelectorAll('.reveal:not(.on)').forEach(el => io.observe(el));
+</script>
+</body>
+</html>

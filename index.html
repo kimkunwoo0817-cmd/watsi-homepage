@@ -200,10 +200,15 @@
   .rw-legend .lg-free{color:var(--teal)}
   .rw-legend .lg-wc{color:#8fb8ff}
   .rw-legend .lg-rest{color:#b9e6a5}
+  /* 관광지 카드: 번호와 분류 글자가 겹치지 않게 흐름 배치 */
+  .rec-wide .rec-pin{position:static;margin-bottom:14px}
+  .rec-wide .rec-info{margin-top:0 !important}
+  .rec-wide .rw-text{justify-content:center}
   @media(min-width:700px){.rec-wide{grid-column:1 / -1}}
   @media(max-width:699px){
     .rec-wide{flex-direction:column}
-    .rw-map{border-left:0;border-top:1px solid var(--line)}
+    .rw-map{border-left:0;border-top:1px solid var(--line);min-height:240px}
+    .rw-legend{gap:6px 10px;font-size:8px;padding:5px 9px;right:10px}
   }
   .rec-note{margin-top:34px;text-align:center;color:var(--ink-faint);font-size:13px}
 

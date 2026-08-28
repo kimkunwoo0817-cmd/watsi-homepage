@@ -303,6 +303,13 @@
   }
   .mail:hover{color:var(--amber)}
   .contact-hint{margin-top:22px;color:var(--ink-faint);font-size:14px;font-weight:300}
+  .contact-sns{margin-top:30px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .contact-sns a{
+    font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--ink-dim);
+    border:1px solid var(--line);border-radius:100px;padding:10px 20px;text-decoration:none;
+    transition:color .3s,border-color .3s,transform .3s;
+  }
+  .contact-sns a:hover{color:var(--teal);border-color:rgba(77,214,193,.5);transform:translateY(-2px)}
 
   footer{
     border-top:1px solid var(--line);padding:32px clamp(20px,6vw,80px);
@@ -588,6 +595,10 @@
   <h2 class="contact-title reveal">다음 <em>좌표</em>를<br>보내주세요</h2>
   <a class="mail reveal" href="mailto:watsi@naver.com">watsi@naver.com</a>
   <p class="contact-hint reveal">프로젝트 문의, 협업 제안 모두 환영합니다.</p>
+  <div class="contact-sns reveal">
+    <a href="https://www.youtube.com/@watsi_film" target="_blank" rel="noopener">YOUTUBE ↗</a>
+    <a href="https://www.instagram.com/watsi.studio" target="_blank" rel="noopener">INSTAGRAM ↗</a>
+  </div>
 </section>
 
 <footer>

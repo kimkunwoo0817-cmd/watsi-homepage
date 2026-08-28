@@ -189,8 +189,9 @@
   /* 관광지 공간 기록 — 와이드 카드 */
   .rec-wide{aspect-ratio:auto;min-height:260px;display:flex;flex-direction:row;align-items:stretch;padding:0;cursor:default}
   .rw-text{flex:1;padding:clamp(22px,3vw,32px);display:flex;flex-direction:column;justify-content:flex-end;position:relative;z-index:1}
-  .rw-map{flex:1.15;position:relative;border-left:1px solid var(--line);background:rgba(5,8,13,.45);min-height:220px}
+  .rw-map,.rw-video{flex:1.15;position:relative;border-left:1px solid var(--line);background:rgba(5,8,13,.45);min-height:220px}
   .rw-map svg{position:absolute;inset:0;width:100%;height:100%}
+  .rw-video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
   .rw-legend{
     position:absolute;left:10px;bottom:10px;z-index:1;display:flex;gap:12px;flex-wrap:wrap;
     font-family:var(--mono);font-size:9px;letter-spacing:.06em;color:var(--ink-dim);
@@ -207,7 +208,7 @@
   @media(min-width:700px){.rec-wide{grid-column:1 / -1}}
   @media(max-width:699px){
     .rec-wide{flex-direction:column}
-    .rw-map{border-left:0;border-top:1px solid var(--line);min-height:240px}
+    .rw-map,.rw-video{border-left:0;border-top:1px solid var(--line);min-height:240px}
     .rw-legend{gap:6px 10px;font-size:8px;padding:5px 9px;right:10px}
   }
   .rec-note{margin-top:34px;text-align:center;color:var(--ink-faint);font-size:13px}
@@ -488,7 +489,7 @@
   <div class="records-inner">
     <p class="sec-label reveal">Collected Records</p>
     <h2 class="sec-title reveal">수집된 기록</h2>
-    <p class="sec-desc reveal">현장에서 수행한 프로젝트와 직접 기획·제작하는 영상 작업들. 곧 이곳에서 재생하실 수 있습니다.</p>
+    <p class="sec-desc reveal">현장에서 수행한 프로젝트와 직접 기획·제작하는 영상 작업들. 이곳에서 바로 재생하실 수 있습니다.</p>
     <div class="rec-grid">
 
       <!-- 관광지 공간 기록 (실제 프로젝트, 지역명 비공개) -->
@@ -536,10 +537,20 @@
         </div>
       </div>
 
-      <!-- 영상 (공개 예정) -->
-      <div class="rec reveal"><span class="rec-pin mono">REC.02</span><span class="rec-soon">COMING SOON</span>
-        <div class="rec-info"><p class="rec-cat">360° VR</p><p class="rec-name">동선 VR · 스팟 VR 영상</p>
-          <p class="rec-desc">회사 유튜브 채널 공개와 함께 이곳에서 바로 재생됩니다.</p></div>
+      <!-- 영상 — 제주 공간 기록 (2026-08-28 유튜브 채널 공개 시작) -->
+      <div class="rec rec-wide reveal">
+        <div class="rw-text">
+          <span class="rec-pin mono">REC.02</span>
+          <div class="rec-info" style="margin-top:auto">
+            <p class="rec-cat">4K · 360° VR</p>
+            <p class="rec-name">제주 공간 기록 — 연재 중</p>
+            <p class="rec-desc">주상절리 해안, 월령리 선인장 군락지 같은 제주의 공간을 4K와 360° VR로 담아 유튜브 채널에 차례로 공개하고 있습니다.</p>
+            <a class="prod-cta cta-live" href="https://www.youtube.com/@watsi_film" target="_blank" rel="noopener">유튜브 채널 보기 ↗</a>
+          </div>
+        </div>
+        <div class="rw-video">
+          <iframe src="https://www.youtube-nocookie.com/embed/T3QMbLtQRd0" title="제주 주상절리 해안 4K | 절벽 위 바다 산책로" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
       </div>
       <div class="rec reveal"><span class="rec-pin mono">REC.03</span><span class="rec-soon">COMING SOON</span>
         <div class="rec-info"><p class="rec-cat">AI Cinema</p><p class="rec-name">AI 시네마틱 필름</p>

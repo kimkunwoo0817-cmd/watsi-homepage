@@ -311,6 +311,49 @@
   }
   .contact-sns a:hover{color:var(--teal);border-color:rgba(77,214,193,.5);transform:translateY(-2px)}
 
+  /* ── 문의 폼 (2026-09-03 추가) ── */
+  .cform{max-width:560px;margin:44px auto 0;text-align:left}
+  .cf-row{margin-bottom:18px}
+  .cf-lab{
+    display:block;margin-bottom:8px;
+    font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--ink-faint);
+  }
+  .cf-in{
+    width:100%;box-sizing:border-box;
+    background:rgba(238,244,242,.03);border:1px solid var(--line);border-radius:10px;
+    padding:13px 15px;color:var(--ink);font-size:15px;font-family:inherit;
+    transition:border-color .25s,background .25s;
+  }
+  .cf-in:focus{outline:none;border-color:rgba(255,180,84,.55);background:rgba(238,244,242,.05)}
+  .cf-in::placeholder{color:var(--ink-faint)}
+  select.cf-in{appearance:none;cursor:pointer;
+    background-image:linear-gradient(45deg,transparent 50%,var(--ink-dim) 50%),linear-gradient(135deg,var(--ink-dim) 50%,transparent 50%);
+    background-position:calc(100% - 20px) 21px,calc(100% - 15px) 21px;
+    background-size:5px 5px,5px 5px;background-repeat:no-repeat;padding-right:42px}
+  select.cf-in option{background:#0b1119;color:var(--ink)}
+  textarea.cf-in{min-height:130px;resize:vertical;line-height:1.6}
+  .cf-two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:520px){.cf-two{grid-template-columns:1fr;gap:0}.cf-two .cf-row{margin-bottom:18px}}
+
+  .cf-agree{display:flex;align-items:flex-start;gap:10px;margin:6px 0 4px;cursor:pointer}
+  .cf-agree input{margin-top:3px;accent-color:var(--amber);width:15px;height:15px;flex:none;cursor:pointer}
+  .cf-agree span{font-size:13px;color:var(--ink-dim);line-height:1.55}
+  .cf-note{margin:0 0 22px 25px;font-size:11.5px;color:var(--ink-faint);line-height:1.6}
+
+  .cf-send{
+    width:100%;cursor:pointer;
+    background:var(--amber);color:#0b0d10;border:none;border-radius:10px;
+    padding:15px;font-size:15px;font-weight:700;font-family:inherit;letter-spacing:-.01em;
+    transition:filter .25s,transform .25s;
+  }
+  .cf-send:hover{filter:brightness(1.08);transform:translateY(-1px)}
+  .cf-send:disabled{opacity:.5;cursor:default;transform:none}
+
+  .cf-msg{margin-top:16px;font-size:14px;line-height:1.65;text-align:center;display:none}
+  .cf-msg.ok{display:block;color:var(--teal)}
+  .cf-msg.err{display:block;color:#ff8f6b}
+  .cf-hp{position:absolute;left:-9999px;opacity:0;pointer-events:none}
+
   footer{
     border-top:1px solid var(--line);padding:32px clamp(20px,6vw,80px);
     display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;
@@ -594,12 +637,119 @@
   <p class="sec-label">Contact</p>
   <h2 class="contact-title reveal">다음 <em>좌표</em>를<br>보내주세요</h2>
   <a class="mail reveal" href="mailto:watsi@naver.com">watsi@naver.com</a>
-  <p class="contact-hint reveal">프로젝트 문의, 협업 제안 모두 환영합니다.</p>
+  <p class="contact-hint reveal">프로젝트 문의, 협업 제안 모두 환영합니다.<br>아래 양식으로 보내주셔도 됩니다.</p>
+
+  <!-- 문의 폼 (Web3Forms — 정적 사이트라 서버 없이 메일로 전달) -->
+  <form class="cform reveal" id="cform" novalidate
+        action="https://api.web3forms.com/submit" method="POST">
+    <input type="hidden" name="access_key" value="57152b5e-dd81-4b21-8a9f-d06df82671e0">
+    <input type="hidden" name="subject" id="cf-subject" value="[watsi.co.kr] 일반 문의">
+    <input type="hidden" name="from_name" value="watsi.co.kr 문의폼">
+    <!-- 자바스크립트 전송이 막히면 폼이 통째로 넘어간다. 그때 돌아올 주소 -->
+    <input type="hidden" name="redirect" value="https://watsi.co.kr/?sent=1">
+    <input type="checkbox" name="botcheck" class="cf-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+    <div class="cf-row">
+      <label class="cf-lab" for="cf-type">문의 유형</label>
+      <select class="cf-in" id="cf-type" name="문의 유형" required>
+        <option value="관리인">관리인 — 기록수첩 앱</option>
+        <option value="한옥: 초가에서 궁궐까지">한옥: 초가에서 궁궐까지 — 게임</option>
+        <!-- 픽루트는 홈페이지에 제품 소개가 생기면 여기에 한 줄 되살린다 (2026-09-03 대표 판단):
+        <option value="픽루트">픽루트 — 답사 기록 앱</option> -->
+        <option value="협업 제안">협업 제안</option>
+        <option value="일반 문의" selected>일반 문의</option>
+      </select>
+    </div>
+
+    <div class="cf-two">
+      <div class="cf-row">
+        <label class="cf-lab" for="cf-name">이름</label>
+        <input class="cf-in" id="cf-name" name="이름" type="text" placeholder="홍길동" required>
+      </div>
+      <div class="cf-row">
+        <label class="cf-lab" for="cf-email">답장받을 이메일</label>
+        <input class="cf-in" id="cf-email" name="이메일" type="email" placeholder="name@example.com" required>
+      </div>
+    </div>
+
+    <div class="cf-row">
+      <label class="cf-lab" for="cf-msg">내용</label>
+      <textarea class="cf-in" id="cf-msg" name="내용" placeholder="문의하실 내용을 적어주세요." required></textarea>
+    </div>
+
+    <label class="cf-agree">
+      <input type="checkbox" id="cf-agree" required>
+      <span>개인정보 수집·이용에 동의합니다. <strong style="color:var(--ink)">(필수)</strong></span>
+    </label>
+    <p class="cf-note">수집 항목: 이름 · 이메일 · 문의 내용 &nbsp;/&nbsp; 목적: 문의 답변 &nbsp;/&nbsp; 보유: 답변 완료 후 1년 이내 파기<br>동의를 거부하실 수 있으며, 그 경우 위 이메일 주소로 직접 보내주시면 됩니다.</p>
+
+    <button class="cf-send" type="submit" id="cf-send">보내기</button>
+    <p class="cf-msg" id="cf-result" role="status"></p>
+  </form>
+
   <div class="contact-sns reveal">
     <a href="https://www.youtube.com/@watsi_film" target="_blank" rel="noopener">YOUTUBE ↗</a>
     <a href="https://www.instagram.com/watsi.studio" target="_blank" rel="noopener">INSTAGRAM ↗</a>
   </div>
 </section>
+
+<script>
+(function(){
+  var f=document.getElementById('cform');
+  if(!f) return;
+  var btn=document.getElementById('cf-send'),
+      out=document.getElementById('cf-result'),
+      type=document.getElementById('cf-type'),
+      subj=document.getElementById('cf-subject');
+
+  // 받은 메일 제목에 문의 유형이 보이게 — 받은편지함에서 바로 구분된다
+  function syncSubject(){ subj.value='[watsi.co.kr] '+type.value; }
+  type.addEventListener('change',syncSubject); syncSubject();
+
+  function say(msg,cls){ out.className='cf-msg '+cls; out.textContent=msg; }
+
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    var name=document.getElementById('cf-name').value.trim(),
+        mail=document.getElementById('cf-email').value.trim(),
+        body=document.getElementById('cf-msg').value.trim();
+    if(!name||!mail||!body){ say('이름 · 이메일 · 내용을 모두 적어주세요.','err'); return; }
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)){ say('이메일 주소를 다시 확인해 주세요.','err'); return; }
+    if(!document.getElementById('cf-agree').checked){ say('개인정보 수집·이용에 동의해 주세요.','err'); return; }
+
+    btn.disabled=true; btn.textContent='보내는 중…'; say('','');
+    // FormData 그대로 보낸다. JSON + Content-Type 을 쓰면 브라우저가 사전확인(preflight)을
+    // 먼저 보내는데 그게 막혀서 전송이 실패한다. FormData 는 사전확인이 없다.
+    fetch('https://api.web3forms.com/submit',{
+      method:'POST',
+      body:new FormData(f)
+    }).then(function(r){ return r.json(); }).then(function(d){
+      if(d.success){
+        f.reset(); syncSubject();
+        btn.textContent='보내기';
+        say('보내주셔서 고맙습니다. 확인하는 대로 답장드리겠습니다.','ok');
+      } else {
+        btn.disabled=false; btn.textContent='보내기';
+        say('전송에 실패했습니다. watsi@naver.com 으로 보내주시면 확인하겠습니다.','err');
+      }
+    }).catch(function(){
+      // 자바스크립트 전송이 막힌 경우(브라우저 보안·확장프로그램 등)
+      // 폼을 그대로 넘겨서 보낸다. 보낸 뒤 redirect 주소로 돌아온다.
+      say('보내는 중입니다…','ok');
+      f.submit();
+    });
+  });
+
+  // 폼이 통째로 넘어갔다가 돌아온 경우 — 고맙다는 말을 보여준다
+  if(location.search.indexOf('sent=1')>-1){
+    setTimeout(function(){
+      document.getElementById('contact').scrollIntoView();
+      say('보내주셔서 고맙습니다. 확인하는 대로 답장드리겠습니다.','ok');
+      btn.disabled=true; btn.textContent='보냈습니다';
+    },600);
+  }
+})();
+</script>
 
 <footer>
   <span class="f-logo">WATSI</span>

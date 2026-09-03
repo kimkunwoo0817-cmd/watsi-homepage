@@ -651,7 +651,9 @@
 
     <div class="cf-row">
       <label class="cf-lab" for="cf-type">문의 유형</label>
-      <select class="cf-in" id="cf-type" name="문의 유형" required>
+      <!-- name 없음: 필드 이름에 한글을 쓰면 받는 메일에서 라벨이 깨진다(Ë¬ì˜ ìœ í˜•).
+           문의 유형은 제목과 내용 맨 앞에 넣어서 전달한다. -->
+      <select class="cf-in" id="cf-type" required>
         <option value="관리인">관리인 — 기록수첩 앱</option>
         <option value="한옥: 초가에서 궁궐까지">한옥: 초가에서 궁궐까지 — 게임</option>
         <!-- 픽루트는 홈페이지에 제품 소개가 생기면 여기에 한 줄 되살린다 (2026-09-03 대표 판단):
@@ -664,17 +666,18 @@
     <div class="cf-two">
       <div class="cf-row">
         <label class="cf-lab" for="cf-name">이름</label>
-        <input class="cf-in" id="cf-name" name="이름" type="text" placeholder="홍길동" required>
+        <input class="cf-in" id="cf-name" name="name" type="text" placeholder="홍길동" required>
       </div>
       <div class="cf-row">
         <label class="cf-lab" for="cf-email">답장받을 이메일</label>
-        <input class="cf-in" id="cf-email" name="이메일" type="email" placeholder="name@example.com" required>
+        <!-- 이름이 반드시 email 이어야 받는 메일의 「답장」이 문의한 사람에게 간다 -->
+        <input class="cf-in" id="cf-email" name="email" type="email" placeholder="name@example.com" required>
       </div>
     </div>
 
     <div class="cf-row">
       <label class="cf-lab" for="cf-msg">내용</label>
-      <textarea class="cf-in" id="cf-msg" name="내용" placeholder="문의하실 내용을 적어주세요." required></textarea>
+      <textarea class="cf-in" id="cf-msg" name="message" placeholder="문의하실 내용을 적어주세요." required></textarea>
     </div>
 
     <label class="cf-agree">
@@ -716,6 +719,12 @@
     if(!name||!mail||!body){ say('이름 · 이메일 · 내용을 모두 적어주세요.','err'); return; }
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)){ say('이메일 주소를 다시 확인해 주세요.','err'); return; }
     if(!document.getElementById('cf-agree').checked){ say('개인정보 수집·이용에 동의해 주세요.','err'); return; }
+
+    // 문의 유형을 내용 맨 앞에 붙인다. (필드 이름에 한글을 쓰면 메일에서 라벨이 깨지므로
+    //  별도 칸으로 보내지 않고, 제목과 내용 안에 넣어 전달한다)
+    var msgEl=document.getElementById('cf-msg');
+    // 앞머리가 이미 붙어 있으면(재전송·유형 변경) 떼고 새로 붙인다
+    msgEl.value='[문의 유형] '+type.value+'\n\n'+msgEl.value.replace(/^\[문의 유형\][^\n]*\n\n/,'');
 
     btn.disabled=true; btn.textContent='보내는 중…'; say('','');
     // FormData 그대로 보낸다. JSON + Content-Type 을 쓰면 브라우저가 사전확인(preflight)을

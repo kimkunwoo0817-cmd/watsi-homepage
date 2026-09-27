@@ -265,6 +265,9 @@
   .shots-tall{grid-template-columns:repeat(4,1fr);align-items:start}
   .shots-tall.tri{grid-template-columns:repeat(3,1fr)}
   .shots-tall.six{grid-template-columns:repeat(3,1fr)}
+  .shots-tall.pic{grid-template-columns:repeat(3,1fr);align-items:stretch}
+  .shots-tall.pic img.first{grid-row:span 2;height:100%;object-fit:cover;object-position:top}
+  @media(max-width:900px){.shots-tall.pic{grid-template-columns:1fr 1fr}}
   .prod-shots img{
     width:100%;height:auto;display:block;
     border-radius:10px;border:1px solid rgba(255,255,255,.07);
@@ -536,6 +539,28 @@
     <div class="prod reveal">
       <div class="prod-body">
         <div class="prod-head">
+          <img class="prod-icon" src="assets/picroute-icon.png" alt="픽루트 앱 아이콘">
+          <div>
+            <p class="prod-tag">App · iOS &amp; Android · 2026.9 출시 예정</p>
+            <h3>픽루트</h3>
+            <p class="prod-en">답사 기록 앱</p>
+          </div>
+        </div>
+        <p class="prod-desc">사진 한 장, 버튼 한 번이면 답사 기록이 끝납니다. 찍는 순간 위치·시각·번호가 붙고 지도에 핀이, 걸은 길은 선으로 남습니다. 서버도 회원가입도 없습니다. 관광지·도심 공원·산책로·등산로를 2년 넘게 직접 답사하며, 그때 필요했던 기능만 담았습니다.</p>
+        <span class="prod-cta cta-soon">2026년 9월 출시 예정</span>
+      </div>
+      <div class="prod-shots shots-tall pic">
+        <img class="first" src="assets/picroute-first.jpg" alt="픽루트 — 지도 홈 화면, 걸은 길이 초록 선으로 그려지는 중" loading="lazy">
+        <img src="assets/picroute-guide1.jpg" alt="픽루트 안내 — 찍으면 위치와 시각이 붙는다" loading="lazy">
+        <img src="assets/picroute-guide2.jpg" alt="픽루트 안내 — 사진이 지도 위 핀이 된다" loading="lazy">
+        <img src="assets/picroute-guide3.jpg" alt="픽루트 안내 — 걸은 길이 선으로 남는다" loading="lazy">
+        <img src="assets/picroute-guide4.jpg" alt="픽루트 안내 — 파일로 꺼내 지도·엑셀에서 쓴다" loading="lazy">
+      </div>
+    </div>
+
+    <div class="prod reveal">
+      <div class="prod-body">
+        <div class="prod-head">
           <img class="prod-icon" src="assets/clearlaw-icon.png" alt="클리어로 아이콘">
           <div>
             <p class="prod-tag">Web · AI Service</p>
@@ -678,8 +703,7 @@
       <select class="cf-in" id="cf-type" required>
         <option value="관리인">관리인 — 기록수첩 앱</option>
         <option value="한옥: 초가에서 궁궐까지">한옥: 초가에서 궁궐까지 — 게임</option>
-        <!-- 픽루트는 홈페이지에 제품 소개가 생기면 여기에 한 줄 되살린다 (2026-09-03 대표 판단):
-        <option value="픽루트">픽루트 — 답사 기록 앱</option> -->
+        <option value="픽루트">픽루트 — 답사 기록 앱</option>
         <option value="협업 제안">협업 제안</option>
         <option value="일반 문의" selected>일반 문의</option>
       </select>
